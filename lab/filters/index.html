@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Let's play with images</title>
+</head>
+
+<body>
+    <script src="http://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js"></script>
+
+    <div class="div1">
+    <h1><strong>Let's play with images!</strong></h1>
+    </div>
+   
+    <canvas id="can1"> 
+    </canvas>
+
+    <p>
+    Load image:
+    <input type="file" multiple="false" accept="image/*" id="finput" onchange="imgUpload()">
+    <br>
+    
+    Choose filters:
+    <input class="button" type="button" value="grey" onclick="doGrey()">
+    <input class="button" type="button" value="blue" onclick="doBlue()">
+    <input class="button" type="button" value="red" onclick="doRed()">
+    <input class="button" type="button" value="triple color" onclick="doTripleColor()">
+    <input class="button" type="button" value="divide" onclick="divideColors()">
+    <br>
+    <input class="buttonReset" type="button" value="reset image" onclick="resetImage()">
+    </p>
+
+  <style>
+      .div1{
+          font-size: 35;
+          font-family: 'Times New Roman', Times, serif;
+          font-style: italic;
+          color: #003380;
+      }
+      #can1 {
+      border: 5px solid #1a001a;
+      border-radius: 10px;
+      height: 250px;
+      background: white;
+    }
+
+      body{
+          margin-top: 50px;
+          margin-left: 50px;
+          background: #cce6ff;
+          align-items: center;
+          justify-items: center;
+          display: grid;
+      }
+      input{
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 15pt;
+      }
+      p{
+          font-size: 25pt;
+          font-weight: bold;
+      }
+      .button{
+        background-color: #0442a0;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 20px;
+      }
+      .buttonReset{
+        background-color: #7e1f81;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 20px;
+      }
+  </style>
+  
+
+    <script>
+        let originalImg = null;
+        let greyImg = null;
+        let blueImg = null;
+        let tripleColorImg = null;
+        let redImg = null;
+        let divideImg = null;
+        let canvas;
+
+        function imgUpload() {
+          alert('new image loaded');
+          canvas = document.getElementById('can1');
+        const fileinput = document.getElementById('finput');
+        originalImg = new SimpleImage(fileinput);
+        greyImg = new SimpleImage(fileinput);
+        blueImg = new SimpleImage(fileinput);
+        tripleColorImg = new SimpleImage(fileinput);
+        redImg = new SimpleImage(fileinput);
+        divideImg = new SimpleImage(fileinput);
+        originalImg.drawTo(canvas);
+        }
+
+        function makeGrey() {
+          for (const pixel of greyImg.values()) {
+            const avg = (pixel.getRed() + pixel.getGreen() + pixel.getBlue()) / 3;
+            pixel.setRed(avg);
+            pixel.setGreen(avg);
+            pixel.setBlue(avg);
+          }
+          canvas = document.getElementById('can1');
+          greyImg.drawTo(canvas);
+        }
+
+        function makeBlue() {
+          for (const pixel of blueImg.values()) {
+            pixel.setBlue(255);
+          }
+          canvas = document.getElementById('can1');
+          blueImg.drawTo(canvas);
+        }
+
+        function makeTripleColor() {
+          const h = tripleColorImg.getHeight();
+          for (const pixel of tripleColorImg.values()) {
+            y = pixel.getY();
+            if (y < h / 3) {
+              pixel.setRed(255);
+            } else if (y < (2 * h) / 3) {
+              pixel.setGreen(250);
+            } else {
+              pixel.setBlue(250);
+            }
+          }
+          canvas = document.getElementById('can1');
+          tripleColorImg.drawTo(canvas);
+        }
+
+        function makeRed() {
+          for (const pixel of redImg.values()) {
+            const avg = (pixel.getRed() + pixel.getGreen() + pixel.getBlue()) / 3;
+            pixel.setRed(2 * avg);
+            pixel.setGreen(avg);
+            pixel.setBlue(avg);
+          }
+          canvas = document.getElementById('can1');
+          redImg.drawTo(canvas);
+        }
+
+        function makeDivide() {
+  for (const pxl of divideImg.values()) {
+    const x = pxl.getX();
+    const y = pxl.getY();
+    const w = divideImg.getWidth();
+    const h = divideImg.getHeight();
+    const avg = (pxl.getRed() + pxl.getGreen() + pxl.getBlue()) / 3;
+    if (x < w / 2 && y < h / 2) {
+              pxl.setBlue(2 * avg);
+        pxl.setGreen(avg);
+        pxl.setRed(avg);
+    } else {
+              pxl.setGreen(2 * avg);
+    }
+    if (x >= w / 2 && y >= h / 2) {
+              pxl.setBlue(2 * avg);
+        pxl.setGreen(avg);
+        pxl.setRed(avg);
+    }
+  }
+        }
+
+        function resetImage() {
+          canvas = document.getElementById('can1');
+          const context = canvas.getContext('2d');
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          originalImg.drawTo(canvas);
+        }
+
+        function doGrey() {
+          if (greyImg == null || !greyImg.complete()) {
+            alert('Grey image not loaded');
+        }
+          resetImage();
+          makeGrey();
+          greyImg.drawTo(canvas);
+}
+
+        function doBlue() {
+          if (blueImg == null || !blueImg.complete()) {
+            alert('Blue image not loaded');
+          }
+          resetImage();
+          makeBlue();
+          blueImg.drawTo(canvas);
+        }
+
+        function doTripleColor() {
+          if (tripleColorImg == null || !tripleColorImg.complete()) {
+            alert('Triple color image not loaded');
+          }
+          resetImage();
+          makeTripleColor();
+          tripleColorImg.drawTo(canvas);
+        }
+
+        function doRed() {
+          if (redImg == null || !redImg.complete()) {
+            alert('Red image not loaded');
+          }
+          resetImage();
+          makeRed();
+          redImg.drawTo(canvas);
+        }
+
+        function divideColors(){
+          if (divideImg == null || !divideImg.complete()) {
+            alert('Red image not loaded');
+          }
+          resetImage();
+          makeDivide();
+          divideImg.drawTo(canvas);
+        }
+  </script>
+
+
+</body>
+
+</html>

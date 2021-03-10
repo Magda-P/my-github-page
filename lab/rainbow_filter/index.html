@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rainbow filter</title>
+</head>
+
+<body>
+    <script src="http://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js"></script>
+
+    <div class="div1">
+    <h1><strong>somewhere over the rainbow...</strong></h1>
+    </div>
+   
+    <canvas id="can1"> 
+    </canvas>
+
+    <p>
+    load image:
+    <input type="file" multiple="false" accept="image/*" id="finput" onchange="imgUpload()">
+    <br>
+    
+    choose filter:
+    <input class="button" type="button" value="rainbow" onclick="makeRainbow()">
+    </p>
+
+  <style>
+      .div1{
+          font-size: 35;
+          font-family: 'Times New Roman', Times, serif;
+          font-style: italic;
+          color: rgb(113, 11, 131);
+      }
+      #can1{
+          height: 250px;
+          border: 5px solid rgb(222, 225, 230);
+          border-radius: 5px;
+      }
+      body{
+          margin-top: 50px;
+          margin-left: 50px;
+          background: rgb(148, 169, 228);
+          align-items: center;
+          justify-items: center;
+          display: grid;
+      }
+      input{
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 15pt;
+      }
+      p{
+          font-size: 25pt;
+          font-weight: bold;
+      }
+      .button{
+        background-color: rgb(113, 11, 131);
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 20px;
+      }
+  </style>
+  <script>
+      let image = null;
+      let rainbowImg = null;
+      let canvas;
+
+function imgUpload() {
+        alert('new image loaded');
+        canvas = document.getElementById('can1');
+        const fileinput = document.getElementById('finput');
+        image = new SimpleImage(fileinput);
+        rainbowImg = new SimpleImage(fileinput);
+        image.drawTo(canvas);
+}
+
+function doRed() {
+  for (const pixel of rainbowImg.values()) {
+    const y = pixel.getY();
+    const h = rainbowImg.getHeight();
+    const avg = (pixel.getRed() + pixel.getGreen() + pixel.getBlue()) / 3;
+    if (y <= h / 7) {
+            if (avg < 128) {
+              pixel.setRed(2 * avg);
+              pixel.setGreen(0);
+              pixel.setBlue(0);
+            } else {
+              pixel.setRed(255);
+              pixel.setGreen(2 * avg - 255);
+              pixel.setBlue(2 * avg - 255);
+            }
+    }
+  }
+  canvas = document.getElementById('can1');
+  rainbowImg.drawTo(canvas);
+}
+
+function doOrange() {
+  for (const pixel of rainbowImg.values()) {
+    const y = pixel.getY();
+    const h = rainbowImg.getHeight();
+    const avg = (pixel.getRed() + pixel.getGreen() + pixel.getBlue()) / 3;
+    if (y >= h / 7 && y < (2 * h) / 7) {
+            if (avg < 128) {
+              pixel.setRed(2 * avg);
+              pixel.setGreen(0.8 * avg);
+              pixel.setBlue(0);
+            } else {
+              pixel.setRed(255);
+              pixel.setGreen(1.2 * avg - 51);
+              pixel.setBlue(2 * avg - 255);
+            }
+    }
+  }
+  canvas = document.getElementById('can1');
+  rainbowImg.drawTo(canvas);
+}
+
+function doYellow() {
+  for (const pixel of rainbowImg.values()) {
+    const y = pixel.getY();
+    const h = rainbowImg.getHeight();
+    const avg = (pixel.getRed() + pixel.getGreen() + pixel.getBlue()) / 3;
+    if (y >= (2 * h) / 7 && y < (3 * h) / 7) {
+            if (avg < 128) {
+              pixel.setRed(2 * avg);
+              pixel.setGreen(2 * avg);
+              pixel.setBlue(0);
+            } else {
+              pixel.setRed(255);
+              pixel.setGreen(255);
+              pixel.setBlue(2 * avg - 255);
+            }
+    }
+  }
+  canvas = document.getElementById('can1');
+  rainbowImg.drawTo(canvas);
+}
+
+function doGreen() {
+  for (const pixel of rainbowImg.values()) {
+    const y = pixel.getY();
+    const h = rainbowImg.getHeight();
+    const avg = (pixel.getRed() + pixel.getGreen() + pixel.getBlue()) / 3;
+    if (y >= (3 * h) / 7 && y < (4 * h) / 7) {
+            if (avg < 128) {
+              pixel.setRed(0);
+              pixel.setGreen(2 * avg);
+              pixel.setBlue(0);
+            } else {
+              pixel.setRed(2 * avg - 255);
+              pixel.setGreen(255);
+              pixel.setBlue(2 * avg - 255);
+            }
+    }
+  }
+  canvas = document.getElementById('can1');
+  rainbowImg.drawTo(canvas);
+}
+
+function doBlue() {
+  for (const pixel of rainbowImg.values()) {
+    const y = pixel.getY();
+    const h = rainbowImg.getHeight();
+    const avg = (pixel.getRed() + pixel.getGreen() + pixel.getBlue()) / 3;
+    if (y >= (4 * h) / 7 && y < (5 * h) / 7) {
+            if (avg < 128) {
+              pixel.setRed(0);
+              pixel.setGreen(0);
+              pixel.setBlue(2 * avg);
+            } else {
+              pixel.setRed(2 * avg - 255);
+              pixel.setGreen(2 * avg - 255);
+              pixel.setBlue(255);
+            }
+    }
+  }
+  canvas = document.getElementById('can1');
+  rainbowImg.drawTo(canvas);
+}
+
+function doIndigo(){
+  for (const pixel of rainbowImg.values()) {
+    const y = pixel.getY();
+    const h = rainbowImg.getHeight();
+    const avg = (pixel.getRed() + pixel.getGreen() + pixel.getBlue()) / 3;
+    if (y >= (5 * h) / 7 && y < (6 * h) / 7) {
+            if (avg < 128) {
+              pixel.setRed(0.8*avg);
+              pixel.setGreen(0);
+              pixel.setBlue(2 * avg);
+            } else {
+              pixel.setRed(1.2 * avg - 51);
+              pixel.setGreen(2 * avg - 255);
+              pixel.setBlue(255);
+            }
+    }
+  }
+  canvas = document.getElementById('can1');
+  rainbowImg.drawTo(canvas);
+}
+
+function doViolet() {
+  for (const pixel of rainbowImg.values()) {
+    const y = pixel.getY();
+    const h = rainbowImg.getHeight();
+    const avg = (pixel.getRed() + pixel.getGreen() + pixel.getBlue()) / 3;
+    if (y >= (6 * h) / 7 && y < (7 * h) / 7) {
+            if (avg < 128) {
+              pixel.setRed(1.6*avg);
+              pixel.setGreen(0);
+              pixel.setBlue(1.6 * avg);
+            } else {
+              pixel.setRed(0.4 * avg + 153);
+              pixel.setGreen(2 * avg - 255);
+              pixel.setBlue(0.4 * avg + 153);
+            }
+    }
+  }
+  canvas = document.getElementById('can1');
+  rainbowImg.drawTo(canvas);
+}
+
+function makeRainbow() {
+  doRed();
+  doOrange();
+  doYellow();
+  doGreen();
+  doBlue();
+  doIndigo();
+  doViolet();
+  rainbowImg.drawTo(canvas);
+}
+</script>
+
+</body>
+
+</html>
